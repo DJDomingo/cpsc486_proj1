@@ -113,7 +113,7 @@
     <ClCompile Include="486_proj1_Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C:\Users\DaIneffable\Downloads\math.h" />
+    <ClInclude Include="math.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

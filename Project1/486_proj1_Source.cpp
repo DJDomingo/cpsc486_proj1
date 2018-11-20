@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
-#include <math.h>
+#include "math.h"
 using namespace std;
 
 
-struct Camera {
+struct old_Camera {
 	float eye[3] = { 0,0,5 };
 	int id = 9;
 	float d_max = 100;
@@ -31,6 +31,34 @@ struct Camera {
 	float frust_Nt[3] = { 0,0,0 };
 };
 
+struct Camera {
+	//float eye[3] = { 0,0,5 };
+	gfx::Vector eye;
+	int id = 9;
+	float d_max = 100;
+	float min_sub_pt = 10;
+	//float min_sub_pt[3] = { 0,0,0 };
+	float v_width = 5;
+	float v_height = 5;
+	//Frustrum Vertices that are Near
+	gfx::Vector frust_Vbl;
+	gfx::Vector frust_Vtl;
+	gfx::Vector frust_Vbr;
+	gfx::Vector frust_Vtr;
+	//Frustrum Vertices that are Far
+	gfx::Vector frust_Wbl;
+	gfx::Vector frust_Wtl;
+	gfx::Vector frust_Wbr;
+	gfx::Vector frust_Wtr;
+	//Frustrum Plane Normals
+	gfx::Vector frust_Nn;
+	gfx::Vector frust_Nf;
+	gfx::Vector frust_Nl;
+	gfx::Vector frust_Nr;
+	gfx::Vector frust_Nb;
+	gfx::Vector frust_Nt;
+};
+
 void calcNearFrustrum(Camera);
 void calcFarFrustrum(Camera);
 void calcFrustPlanes(Camera);
@@ -45,9 +73,9 @@ int main()
 	//input should be: Model Space, World Space, and ID of cam
 	int clip_cam = 9; //cam to clip against
 	int meh; //just used to pause before exiting
-	
+
 	Camera main_cam;
-	
+
 
 
 	//view frustrum (6 panels, 8 points)
@@ -62,134 +90,68 @@ int main()
 }
 
 void calcNearFrustrum(Camera cam) {
-	//near plane vertices
-	float temp_D[3] = { 0, 0, 1 };
-	float temp_U[3] = { 0, 1, 0 };
-	float temp_R[3] = { 1, 0, 0 };
+	// D U R
+	gfx::Vector temp_D(0, 0, 1);
+	gfx::Vector temp_U(0, 1, 0);
+	gfx::Vector temp_R(1, 0, 0);
+	cout << "Near Frustrums:\n";
 
 	// Vbl = E + dmin*D + umin*U + rmin*R
-	vectMult(temp_D, cam.min_sub_pt); //dmin
-	vectMult(temp_U, -cam.v_height / 2); //umin
-	vectMult(temp_R, -cam.v_width / 2); //rmin
-	
-	vectAdd(cam.frust_Vbl, cam.eye);
-	vectAdd(cam.frust_Vbl, temp_D);
-	vectAdd(cam.frust_Vbl, temp_U);
-	vectAdd(cam.frust_Vbl, temp_R);
-
-	showVect(cam.frust_Vbl);
+	cam.frust_Vbl = (cam.eye + cam.min_sub_pt*temp_D - (cam.v_height / 2)*temp_U - (cam.v_width / 2)*temp_R);
+	cout << cam.frust_Vbl << endl;
 
 	// Vtl = E + dmin*D + umax*U + rmin*R
-	temp_U[0] = 0; temp_U[1] = 1; temp_U[2] = 0; //reset needed temps
-	vectMult(temp_U, cam.v_height / 2); //umax
-
-	vectAdd(cam.frust_Vtl, cam.eye);
-	vectAdd(cam.frust_Vtl, temp_D);
-	vectAdd(cam.frust_Vtl, temp_U);
-	vectAdd(cam.frust_Vtl, temp_R);
-
-	showVect(cam.frust_Vtl);
+	cam.frust_Vtl = (cam.eye + cam.min_sub_pt*temp_D + (cam.v_height / 2)*temp_U - (cam.v_width / 2)*temp_R);
+	cout << cam.frust_Vtl << endl;
 
 	// Vbr = E + dmin*D + umin*U + rmax*R
-	temp_U[0] = 0; temp_U[1] = 1; temp_U[2] = 0; //reset needed temps
-	temp_R[0] = 1; temp_R[1] = 0; temp_R[2] = 0; //reset needed temps
-	vectMult(temp_U, -cam.v_height / 2); //umin
-	vectMult(temp_R, cam.v_width / 2); //rmax
-
-	vectAdd(cam.frust_Vbr, cam.eye);
-	vectAdd(cam.frust_Vbr, temp_D);
-	vectAdd(cam.frust_Vbr, temp_U);
-	vectAdd(cam.frust_Vbr, temp_R);
-
-	showVect(cam.frust_Vbr);
+	cam.frust_Vbr = (cam.eye + cam.min_sub_pt*temp_D - (cam.v_height / 2)*temp_U + (cam.v_width / 2)*temp_R);
+	cout << cam.frust_Vbr << endl;
 
 	// Vtr = E + dmin*D + umax*U + rmax*R
-	temp_U[0] = 0; temp_U[1] = 1; temp_U[2] = 0; //reset needed temps
-	vectMult(temp_U, cam.v_height / 2); //umax
-
-	vectAdd(cam.frust_Vtr, cam.eye);
-	vectAdd(cam.frust_Vtr, temp_D);
-	vectAdd(cam.frust_Vtr, temp_U);
-	vectAdd(cam.frust_Vtr, temp_R);
-
-	showVect(cam.frust_Vtr);
+	cam.frust_Vtr = (cam.eye + cam.min_sub_pt*temp_D + (cam.v_height / 2)*temp_U + (cam.v_width / 2)*temp_R);
+	cout << cam.frust_Vtr << endl;
 }
 
 void calcFarFrustrum(Camera cam) {
-	//far plane vertices
-	float temp_D[3] = { 0, 0, 1 };
-	float temp_U[3] = { 0, 1, 0 };
-	float temp_R[3] = { 1, 0, 0 };
+	// D U R
+	gfx::Vector temp_D(0, 0, 1);
+	gfx::Vector temp_U(0, 1, 0);
+	gfx::Vector temp_R(1, 0, 0);
 	float temp_dist = cam.d_max / cam.min_sub_pt;
+	cout << "Far Frustrums:\n";
 
 	// Wbl = E + dmax/dmin(dmin*D + umin*U + rmin*R)
-	vectMult(temp_D, cam.min_sub_pt); //dmin
-	vectMult(temp_U, -cam.v_height / 2); //umin
-	vectMult(temp_R, -cam.v_width / 2); //rmin
-
-	vectAdd(cam.frust_Wbl, temp_D);
-	vectAdd(cam.frust_Wbl, temp_U);
-	vectAdd(cam.frust_Wbl, temp_R);
-	vectMult(cam.frust_Wbl, temp_dist);
-	vectAdd(cam.frust_Wbl, cam.eye);
-
-	showVect(cam.frust_Wbl);
+	cam.frust_Wbl = (cam.eye + temp_dist*(cam.min_sub_pt*temp_D - (cam.v_height / 2)*temp_U - (cam.v_width / 2)*temp_R));
+	cout << cam.frust_Wbl << endl;
 
 	// Wtl = E + dmin*D + umax*U + rmin*R
-	temp_U[0] = 0; temp_U[1] = 1; temp_U[2] = 0; //reset needed temps
-	vectMult(temp_U, cam.v_height / 2); //umax
-
-	vectAdd(cam.frust_Wtl, temp_D);
-	vectAdd(cam.frust_Wtl, temp_U);
-	vectAdd(cam.frust_Wtl, temp_R);
-	vectMult(cam.frust_Wtl, temp_dist);
-	vectAdd(cam.frust_Wtl, cam.eye);
-
-	showVect(cam.frust_Wtl);
+	cam.frust_Wtl = (cam.eye + temp_dist*(cam.min_sub_pt*temp_D + (cam.v_height / 2)*temp_U - (cam.v_width / 2)*temp_R));
+	cout << cam.frust_Wtl << endl;
 
 	// Wbr = E + dmin*D + umin*U + rmax*R
-	temp_U[0] = 0; temp_U[1] = 1; temp_U[2] = 0; //reset needed temps
-	temp_R[0] = 1; temp_R[1] = 0; temp_R[2] = 0; //reset needed temps
-	vectMult(temp_U, -cam.v_height / 2); //umin
-	vectMult(temp_R, cam.v_height / 2); //rmax
-
-	vectAdd(cam.frust_Wbr, temp_D);
-	vectAdd(cam.frust_Wbr, temp_U);
-	vectAdd(cam.frust_Wbr, temp_R);
-	vectMult(cam.frust_Wbr, temp_dist);
-	vectAdd(cam.frust_Wbr, cam.eye);
-
-	showVect(cam.frust_Wbr);
+	cam.frust_Wbr = (cam.eye + temp_dist*(cam.min_sub_pt*temp_D - (cam.v_height / 2)*temp_U + (cam.v_width / 2)*temp_R));
+	cout << cam.frust_Wbr << endl;
 
 	// Wtr = E + dmin*D + umax*U + rmax*R
-	temp_U[0] = 0; temp_U[1] = 1; temp_U[2] = 0; //reset needed temps
-	vectMult(temp_U, cam.v_height / 2); //umax
-
-	vectAdd(cam.frust_Wtr, temp_D);
-	vectAdd(cam.frust_Wtr, temp_U);
-	vectAdd(cam.frust_Wtr, temp_R);
-	vectMult(cam.frust_Wtr, temp_dist);
-	vectAdd(cam.frust_Wtr, cam.eye);
-
-	showVect(cam.frust_Wtr);
+	cam.frust_Wtr = (cam.eye + temp_dist*(cam.min_sub_pt*temp_D + (cam.v_height / 2)*temp_U + (cam.v_width / 2)*temp_R));
+	cout << cam.frust_Wtr << endl;
 }
 
 void calcFrustPlanes(Camera cam) {
-	// normals
-	float temp_D[3] = { 0, 0, 1 };
-	float temp_U[3] = { 0, 1, 0 };
-	float temp_R[3] = { 1, 0, 0 };
-
-	// NearPlane
-	dotProd(cam.frust_Nn, temp_D, cam.eye);
-	vectAdd(cam.frust_Nn, cam.min_sub_pt);
-	showVect(cam.frust_Nn);
+	// D U R
+	gfx::Vector temp_D(0, 0, 1);
+	gfx::Vector temp_U(0, 1, 0);
+	gfx::Vector temp_R(1, 0, 0);
+	cout << "Frustrum Planes:\n";
+	// NearPlane D.E + dmin
+	cam.frust_Nn.Dot(temp_D, cam.eye) + cam.min_sub_pt;
+	cout << cam.frust_Nn << endl;
 
 	// FarPlane
-	dotProd(cam.frust_Nf, temp_D, cam.eye);
-	vectAdd(cam.frust_Nf, cam.d_max);
-	negVect(cam.frust_Nf);
-	showVect(cam.frust_Nf);
+	cam.frust_Nf.Dot(temp_D, cam.eye) + cam.min_sub_pt;
+	cam.frust_Nf = -cam.frust_Nf;
+	cout << cam.frust_Nf << endl;
 
 	// LeftPlane
 	// RightPlane

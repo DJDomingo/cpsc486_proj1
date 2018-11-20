@@ -1,3 +1,5 @@
 ﻿  486_proj1_Source.cpp
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(148): warning C4552: '+': operator has no effect; expected operator with side-effect
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(152): warning C4552: '+': operator has no effect; expected operator with side-effect
   Project1.vcxproj -> D:\GitHubRepo\CSUF_repo\cpsc486_proj1\Project1\Debug\Project1.exe
   Project1.vcxproj -> D:\GitHubRepo\CSUF_repo\cpsc486_proj1\Project1\Debug\Project1.pdb (Partial PDB)
