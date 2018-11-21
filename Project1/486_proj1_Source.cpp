@@ -4,42 +4,18 @@
 using namespace std;
 
 
-struct old_Camera {
-	float eye[3] = { 0,0,5 };
-	int id = 9;
-	float d_max = 100;
-	float min_sub_pt = 10;
-	//float min_sub_pt[3] = { 0,0,0 };
-	float v_width = 5;
-	float v_height = 5;
-	//Frustrum Vertices that are Near
-	float frust_Vbl[3] = { 0,0,0 };
-	float frust_Vtl[3] = { 0,0,0 };
-	float frust_Vbr[3] = { 0,0,0 };
-	float frust_Vtr[3] = { 0,0,0 };
-	//Frustrum Vertices that are Far
-	float frust_Wbl[3] = { 0,0,0 };
-	float frust_Wtl[3] = { 0,0,0 };
-	float frust_Wbr[3] = { 0,0,0 };
-	float frust_Wtr[3] = { 0,0,0 };
-	//Frustrum Plane Normals
-	float frust_Nn[3] = { 0,0,0 };
-	float frust_Nf[3] = { 0,0,0 };
-	float frust_Nl[3] = { 0,0,0 };
-	float frust_Nr[3] = { 0,0,0 };
-	float frust_Nb[3] = { 0,0,0 };
-	float frust_Nt[3] = { 0,0,0 };
+struct Triangle {
+	int id = 0;
+	gfx::Vector pts[3];
 };
 
 struct Camera {
-	//float eye[3] = { 0,0,5 };
 	gfx::Vector eye;
 	int id = 9;
-	float d_max = 100;
-	float min_sub_pt = 10;
-	//float min_sub_pt[3] = { 0,0,0 };
-	float v_width = 5;
-	float v_height = 5;
+	double d_max = 100;
+	double min_sub_pt = 10; //d_min
+	double v_width = 5.7735;
+	double v_height = 5.7735;
 	//Frustrum Vertices that are Near
 	gfx::Vector frust_Vbl;
 	gfx::Vector frust_Vtl;
@@ -59,15 +35,11 @@ struct Camera {
 	gfx::Vector frust_Nt;
 };
 
+//Prototypes:
 void calcNearFrustrum(Camera);
 void calcFarFrustrum(Camera);
 void calcFrustPlanes(Camera);
-void vectMult(float[], float);
-void dotProd(float[], float[], float[]);
-void vectAdd(float[], float[]);
-void vectAdd(float[], float);
-void showVect(float[]);
-void negVect(float[]);
+void printTri(Triangle);
 int main()
 {
 	//input should be: Model Space, World Space, and ID of cam
@@ -75,7 +47,12 @@ int main()
 	int meh; //just used to pause before exiting
 
 	Camera main_cam;
-	main_cam.eye = (0, 0, 5);
+	//main_cam.eye = gfx::Vector(0, 0, 5);
+
+	Triangle test;
+	test.pts[0] = gfx::Vector(-1, -1, 0);
+	test.pts[1] = gfx::Vector(1, -1, 0);
+	printTri(test);
 
 
 	//view frustrum (6 panels, 8 points)
@@ -118,7 +95,7 @@ void calcFarFrustrum(Camera cam) {
 	gfx::Vector temp_D(0, 0, 1);
 	gfx::Vector temp_U(0, 1, 0);
 	gfx::Vector temp_R(1, 0, 0);
-	float temp_dist = cam.d_max / cam.min_sub_pt;
+	double temp_dist = cam.d_max / cam.min_sub_pt;
 	cout << "Far Frustrums:\n";
 
 	// Wbl = E + dmax/dmin(dmin*D + umin*U + rmin*R)
@@ -167,41 +144,11 @@ void calcFrustPlanes(Camera cam) {
 	// TopPlane
 	cam.frust_Nt = (-cam.min_sub_pt*temp_U + (cam.v_width / 2) *temp_D) * (1 / sqrt(-cam.min_sub_pt*-cam.min_sub_pt + (cam.v_width / 2)*(cam.v_width / 2)));
 	cout << "Nt: " << cam.frust_Nt << endl;
-}	
-
-void vectMult(float vect[], float val) {
-	for (int i = 0; i < 3; i++) {
-		vect[i] *= val;
-	}
 }
 
-void dotProd(float ans[], float vect[], float vect2[]) {
+void printTri(Triangle tri) {
+	cout << "Triangle " << tri.id << endl;
 	for (int i = 0; i < 3; i++) {
-		ans[i] = vect[i] * vect2[i];
-	}
-}
-
-void vectAdd(float vect[], float val[]) {
-	for (int i = 0; i < 3; i++) {
-		vect[i] += val[i];
-	}
-}
-
-void vectAdd(float vect[], float val) {
-	for (int i = 0; i < 3; i++) {
-		vect[i] += val;
-	}
-}
-
-void showVect(float vect[]) {
-	for (int i = 0; i < 3; i++) {
-		cout << vect[i] << ", ";
-	}
-	cout << endl;
-}
-
-void negVect(float vect[]) {
-	for (int i = 0; i < 3; i++) {
-		vect[i] = -vect[i];
+		cout << "point " << i << ": " << tri.pts[i] << endl;
 	}
 }
