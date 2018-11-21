@@ -36,6 +36,7 @@ struct Camera {
 };
 
 //Prototypes:
+void toWorldSpace(Triangle, gfx::Vector, double, double);
 void calcNearFrustrum(Camera);
 void calcFarFrustrum(Camera);
 void calcFrustPlanes(Camera);
@@ -50,20 +51,29 @@ int main()
 	//main_cam.eye = gfx::Vector(0, 0, 5);
 
 	Triangle test;
-	test.pts[0] = gfx::Vector(-1, -1, 0);
-	test.pts[1] = gfx::Vector(1, -1, 0);
+	test.pts[0] = gfx::Vector(-11.8014, -0.6047, -7.7693);
+	test.pts[1] = gfx::Vector(1.9975, 13.3936, -4.0767);
+	//test.pts[2] = (0,0,0);
 	printTri(test);
 
+	// 1. Convert to world space from model space
+		//ex) try loc(-70,0,80) with az -90 and elv -30
+	toWorldSpace(test, gfx::Vector(-70,0,80), -90, -30);
 
-	//view frustrum (6 panels, 8 points)
-	calcNearFrustrum(main_cam);
-	cout << endl;
-	calcFarFrustrum(main_cam);
-	cout << endl;
-	calcFrustPlanes(main_cam);
+	// 2. Calculate view frustrum (6 panels, 8 points)
+	calcNearFrustrum(main_cam); // near frustrum vertices
+	calcFarFrustrum(main_cam); // far frustrum vertices
+	calcFrustPlanes(main_cam); // frustrum planes
+
+	// 3. Cull/Clip: Check if triangles fall in, out, or partial of frustrum.
+
 
 	cin >> meh;
 	return 0;
+}
+
+void toWorldSpace(Triangle tri, gfx::Vector vec, double azm, double elev) {
+
 }
 
 void calcNearFrustrum(Camera cam) {
@@ -88,6 +98,8 @@ void calcNearFrustrum(Camera cam) {
 	// Vtr = E + dmin*D + umax*U + rmax*R
 	cam.frust_Vtr = (cam.eye + cam.min_sub_pt*temp_D + (cam.v_height / 2)*temp_U + (cam.v_width / 2)*temp_R);
 	cout << "Vtr: " << cam.frust_Vtr << endl;
+
+	cout << endl;
 }
 
 void calcFarFrustrum(Camera cam) {
@@ -113,6 +125,8 @@ void calcFarFrustrum(Camera cam) {
 	// Wtr = E + dmin*D + umax*U + rmax*R
 	cam.frust_Wtr = (cam.eye + temp_dist*(cam.min_sub_pt*temp_D + (cam.v_height / 2)*temp_U + (cam.v_width / 2)*temp_R));
 	cout << "Wtr: " << cam.frust_Wtr << endl;
+
+	cout << endl;
 }
 
 void calcFrustPlanes(Camera cam) {
@@ -144,6 +158,8 @@ void calcFrustPlanes(Camera cam) {
 	// TopPlane
 	cam.frust_Nt = (-cam.min_sub_pt*temp_U + (cam.v_width / 2) *temp_D) * (1 / sqrt(-cam.min_sub_pt*-cam.min_sub_pt + (cam.v_width / 2)*(cam.v_width / 2)));
 	cout << "Nt: " << cam.frust_Nt << endl;
+
+	cout << endl;
 }
 
 void printTri(Triangle tri) {
