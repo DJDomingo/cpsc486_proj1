@@ -101,7 +101,6 @@ int main()
 	}
 	//input should be: Model Space, World Space, and ID of cam
 	int clip_cam = 9; //cam to clip against
-	int meh; //just used to pause before exiting
 
 	Camera main_cam;
 	//main_cam.eye = gfx::Vector(0, 0, 5);
@@ -124,7 +123,7 @@ int main()
 							   // 3. Cull/Clip: Check if triangles fall in, out, or partial of frustrum.
 
 
-	cin >> meh;
+	pause();
 	return 0;
 }
 

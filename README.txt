@@ -16,9 +16,8 @@ External Req: none (all files used are provided)
 Build: Used Visual Studio and coded with C++.  
 Usage:  Currently project has:
 	- Calculating of Frustrum Vertices and Panels
-	- Separate cpp that takes in a file (our file) and gathers appropriate data
+	- Takes in a file (our file) and gathers appropriate data
 	Still needs:
-	- Integrating file cpp into main cpp
 	- Calculating azimuth and elevation for points when moving objects into world space
 	- Putting Triangles into bags to make objects
 	- Clipping and Culling of Objects using the Frustrum calculated
