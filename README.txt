@@ -7,7 +7,9 @@ By:     Daniel Domingo (djdomingo@csu.fullertin.edu),
 Team Name: ZZZ
 Class #: 486
 
-Files: 486_proj1_Source.cpp, math.h, test.txt, inputoutput.cpp
+Files:  - 486_proj1_Source.cpp [the main cpp through which the program is run] 
+	- math.h [a Vector math class to manipulate vectors easily], 
+	- test.txt [the TXT file that is read by the program], 
 
 Intro: The task of this project is to input a scene and camera, and output a list of unculled whole
 	triangles along with new clipped triangles obtained from partially included triangles.

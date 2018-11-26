@@ -1,3 +1,13 @@
+/*By: Daniel Domingo (djdomingo@csu.fullertin.edu), 
+	  Jordan Harvey (jpharvey@csu.fullerton.edu), 
+	  Patrick Myers (pmyers@csu.fullerton.edu),
+	  Kim-Lan Hoang (khoangl@csu.fullerton.edu)
+
+	  Program is a class used by 486_proj1_Source.cpp 
+	  to handle Vectors and Vector math more easily while 
+	  keeping the code cleaner.
+*/
+
 #pragma once
 
 #include <cassert>

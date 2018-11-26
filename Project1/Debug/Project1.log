@@ -1,12 +1,12 @@
 ﻿  486_proj1_Source.cpp
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(121): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(135): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(138): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(326): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(328): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(343): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(352): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(361): warning C4018: '<': signed/unsigned mismatch
-d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(407): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(133): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(147): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(150): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(338): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(340): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(355): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(364): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(373): warning C4018: '<': signed/unsigned mismatch
+d:\githubrepo\csuf_repo\cpsc486_proj1\project1\486_proj1_source.cpp(419): warning C4018: '<': signed/unsigned mismatch
   Project1.vcxproj -> D:\GitHubRepo\CSUF_repo\cpsc486_proj1\Project1\Debug\Project1.exe
   Project1.vcxproj -> D:\GitHubRepo\CSUF_repo\cpsc486_proj1\Project1\Debug\Project1.pdb (Partial PDB)

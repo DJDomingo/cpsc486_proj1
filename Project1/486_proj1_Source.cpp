@@ -1,3 +1,15 @@
+/*By: Daniel Domingo (djdomingo@csu.fullertin.edu), 
+	  Jordan Harvey (jpharvey@csu.fullerton.edu), 
+	  Patrick Myers (pmyers@csu.fullerton.edu),
+	  Kim-Lan Hoang (khoangl@csu.fullerton.edu)
+
+	  Program: This program is supposed to read in from a file triangle objects and camera 
+	  information so that it may cull and clip objects outside the cameras view.
+	  The program does not work completly as planned so far, but is on its way.
+	  Currently data can be grabbed from the file and a view frustrum is being calculated.
+	  Other comments should help as one scans the code.
+*/
+
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -33,7 +45,7 @@ struct Camera {
 	gfx::Vector eye;
 	int id = 9;
 	double d_max = 100;
-	double min_sub_pt = 10; //d_min
+	double min_sub_pt = 10; //d_min?
 	double v_width = 5.7735;
 	double v_height = 5.7735;
 	//Frustrum Vertices that are Near
@@ -147,7 +159,6 @@ int main()
 	int clip_cam = 9; //cam to clip against
 
 	Camera main_cam;
-	//main_cam.eye = gfx::Vector(0, 0, 5);
 
 	Triangle test;
 	test.pts[0] = gfx::Vector(-11.8014, -0.6047, -7.7693);
@@ -172,7 +183,9 @@ int main()
 }
 
 void toWorldSpace(Triangle tri, gfx::Vector vec, double azm, double elev) {
-	
+	//first calculate the azimuth
+	//then elevation
+	//finally translate
 }
 
 void calcNearFrustrum(Camera cam) {
@@ -320,7 +333,6 @@ output scan(string line)
 	result.description = "NULL";
 	vector<double> info;
 
-	//we know it's not a comment
 	//line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
 	//Does this describe the camera?
 	for (int i = 0; i < line.length(); i++)
