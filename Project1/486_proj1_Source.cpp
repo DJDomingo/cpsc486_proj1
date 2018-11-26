@@ -10,8 +10,11 @@ using namespace std;
 
 //functions made
 void pause();
+double calcMagnitude(gfx::Vector a);
 vector<double> returnNumbers(int i, string); //returns numbers from a line within a string.
 int returnDigit(char digit);
+double calcDistance(gfx::Vector a, gfx::Vector b);
+
 struct output
 {
 	string description;
@@ -52,6 +55,43 @@ struct Camera {
 	gfx::Vector frust_Nt;
 };
 
+gfx::Vector calcPoint(double azimuth, double elevation, gfx::Vector turn, gfx::Vector worldSpacePlace)
+{
+	gfx::Vector result;
+	double pie = 3.14159;
+	double degrees = azimuth*(pie / 180);
+	gfx::Vector v1(cos(degrees), -sin(degrees), 0,turn[0]);
+	gfx::Vector v2(sin(degrees), cos(degrees), 0, turn[1]);
+	gfx::Vector v3(0, 0, 1, turn[2]);
+	gfx::Vector v4(0, 0, 0, 1);
+
+	degrees = elevation * (pie / 180);
+
+	gfx::Vector v5(cos(degrees), 0, -sin(degrees), 0);
+	gfx::Vector v6(0, 1, 0, 0);
+	gfx::Vector v7(sin(degrees), 0, cos(degrees), 0);
+	gfx::Vector v8(0, 0, 0, 1);
+	
+
+	double result1[4];
+	result1[0] = v5.Dot(worldSpacePlace);
+	result1[1] = v6.Dot(worldSpacePlace);
+	result1[2] = v7.Dot(worldSpacePlace);
+	result1[3] = v8.Dot(worldSpacePlace);
+
+	gfx::Vector resultPart(result1[0], result1[1], result1[2], result1[3]);
+
+	double result2[4];
+	result2[0] = v1.Dot(resultPart);
+	result2[1] = v2.Dot(resultPart);
+	result2[2] = v3.Dot(resultPart);
+	result2[3] = v4.Dot(resultPart);
+	gfx::Vector resultPart2(result2[0], result2[1], result2[2], result2[3]);
+
+	result = resultPart2;
+	return (result);
+}
+
 //Prototypes:
 void toWorldSpace(Triangle, gfx::Vector, double, double);
 void calcNearFrustrum(Camera);
@@ -61,6 +101,7 @@ void printTri(Triangle);
 int main()
 {
 	ifstream myfile("test.txt");
+	ofstream myfile2("cslg-p1-output-1.txt");
 	if (myfile.fail())
 	{
 		cout << "\n** ERROR - the file cannot be found! One has been created. Please place the data in test.txt";
@@ -69,7 +110,6 @@ int main()
 		return 0;
 	}
 	else {
-		cout << "The file test.txt is found.\nlooking through data.\n";
 		string line;
 		vector<output> vec;
 		vector<output> determineVector;
@@ -81,12 +121,16 @@ int main()
 				for (int i = 0; i < scan(line).data.size(); i++)
 				{
 					//cout << scan(line).data.at(i) << endl;
-					vec.at(vec.size() - 1).data.push_back(scan(line).data.at(i));
+				vec.at(vec.size() - 1).data.push_back(scan(line).data.at(i));
 				}
 			}
 			else
 				vec.push_back(scan(line));
 		}
+		gfx::Vector a(0.0, 0.0, 0.0);
+		gfx::Vector c(12, -7, -2);
+		gfx::Vector b(-3, -3, -13);
+		cout << calcDistance(c, b);
 		cout << "vector of size : " << vec.size() << endl;
 		for (int i = 0; i < vec.size(); i++)
 		{
@@ -101,6 +145,7 @@ int main()
 	}
 	//input should be: Model Space, World Space, and ID of cam
 	int clip_cam = 9; //cam to clip against
+	int meh; //just used to pause before exiting
 
 	Camera main_cam;
 	//main_cam.eye = gfx::Vector(0, 0, 5);
@@ -123,7 +168,7 @@ int main()
 							   // 3. Cull/Clip: Check if triangles fall in, out, or partial of frustrum.
 
 
-	pause();
+	cin >> meh;
 	return 0;
 }
 
@@ -155,6 +200,45 @@ void calcNearFrustrum(Camera cam) {
 	cout << "Vtr: " << cam.frust_Vtr << endl;
 
 	cout << endl;
+}
+
+
+bool isZero(gfx::Vector a)
+{
+	return ((a[0] == 0) && (a[1] == 0) && (a[2] == 0));
+}
+double calcMagnitude(gfx::Vector a)
+{
+	return sqrt(pow(a[0],2)+pow(a[1],2)+pow(a[2],2));
+}
+double calcDistance(gfx::Vector b, gfx::Vector a)
+{
+	double result=0.0;
+	double dotProduct=0.0;
+
+	dotProduct=a.Dot(b);
+	double top = dotProduct;
+	double bot = calcMagnitude(a)*calcMagnitude(b);
+
+	result=acos(top / bot)*(180/3.14);
+
+	return result;
+
+}
+gfx::Vector azimuthchange(double degree, gfx::Vector a, gfx::Vector b)
+{
+	gfx::Vector result(a[0],a[1],a[2]);
+	double botTop= cos(degree);
+	double length = a[2];
+	//cos x/r
+	cos(degree);
+	
+
+	return result;
+	
+
+	
+
 }
 
 void calcFarFrustrum(Camera cam) {
