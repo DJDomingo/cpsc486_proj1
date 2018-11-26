@@ -9,7 +9,7 @@ namespace gfx
 	{
 	public:
 
-		double x, y, z;
+		double x, y, z, u;
 
 		Vector()
 			: x(0)
@@ -34,7 +34,12 @@ namespace gfx
 			, y(inY)
 			, z(inZ)
 		{}
-
+		Vector(double inX, double inY, double inZ, double inU)
+			: x(inX)
+			, y(inY)
+			, z(inZ)
+			, u(inU)
+		{}
 		Vector& operator=(const Vector& vec)
 		{
 			x = vec.x;
@@ -52,8 +57,10 @@ namespace gfx
 				return x;
 			else if (i == 1)
 				return y;
-			else
+			else if (i == 2)
 				return z;
+			else
+				return u;
 		}
 
 		double Length() const
