@@ -145,7 +145,6 @@ int main()
 	}
 	//input should be: Model Space, World Space, and ID of cam
 	int clip_cam = 9; //cam to clip against
-	int meh; //just used to pause before exiting
 
 	Camera main_cam;
 	//main_cam.eye = gfx::Vector(0, 0, 5);
@@ -165,15 +164,15 @@ int main()
 	calcFarFrustrum(main_cam); // far frustrum vertices
 	calcFrustPlanes(main_cam); // frustrum planes
 
-							   // 3. Cull/Clip: Check if triangles fall in, out, or partial of frustrum.
+	// 3. Cull/Clip: Check if triangles fall in, out, or partial of frustrum.
 
 
-	cin >> meh;
+	pause();
 	return 0;
 }
 
 void toWorldSpace(Triangle tri, gfx::Vector vec, double azm, double elev) {
-
+	
 }
 
 void calcNearFrustrum(Camera cam) {
@@ -312,6 +311,7 @@ void printTri(Triangle tri) {
 
 void pause() {//simple pausing function for readability
 	string junk;
+	cout << "Press Enter to continue...";
 	getline(cin, junk);
 }
 output scan(string line)

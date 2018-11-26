@@ -15,8 +15,9 @@ External Req: none (all files used are provided)
 
 Build: Used Visual Studio and coded with C++.  
 Usage:  Currently project has:
+	- Vector class to handle points and vector information
 	- Calculating of Frustrum Vertices and Panels
-	- Takes in a file (our file) and gathers appropriate data
+	- Txt file is read into the project and split into appropriate sections of data which can be grabbed.
 	Still needs:
 	- Calculating azimuth and elevation for points when moving objects into world space
 	- Putting Triangles into bags to make objects
