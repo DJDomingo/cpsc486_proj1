@@ -9,18 +9,20 @@ namespace gfx
 	{
 	public:
 
-		double x, y, z;
+		double x, y, z, w;
 
 		Vector()
 			: x(0)
 			, y(0)
 			, z(0)
+			, w(0)
 		{}
 
 		Vector(const Vector& vec)
 			: x(vec.x)
 			, y(vec.y)
 			, z(vec.z)
+			, w(vec.w)
 		{}
 
 		Vector(double sc)
@@ -33,13 +35,20 @@ namespace gfx
 			: x(inX)
 			, y(inY)
 			, z(inZ)
+			, w(0)
 		{}
-
+		Vector(double inX, double inY, double inZ, double inW)
+			: x(inX)
+			, y(inY)
+			, z(inZ)
+			, w(inW)
+		{}
 		Vector& operator=(const Vector& vec)
 		{
 			x = vec.x;
 			y = vec.y;
 			z = vec.z;
+			w = vec.w;
 
 			return *this;
 		}
@@ -52,8 +61,10 @@ namespace gfx
 				return x;
 			else if (i == 1)
 				return y;
-			else
+			else if (i == 2)
 				return z;
+			else
+				return w;
 		}
 
 		double Length() const
@@ -78,7 +89,7 @@ namespace gfx
 
 		double Dot(const Vector& vec) const
 		{
-			return x * vec.x + y * vec.y + z * vec.z;
+			return x * vec.x + y * vec.y + z * vec.z + vec.w*w;
 		}
 
 		static double Dot(const Vector& vec1, const Vector& vec2)
